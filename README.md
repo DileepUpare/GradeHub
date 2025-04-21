@@ -101,7 +101,7 @@ The system includes a comprehensive digital assessment and evaluation platform w
    ```
 
    - **Login ID:** `123456`
-   - **Password:** `admin123`
+   - **Password:** `admin`
   
    - Using this login to the admin account and from admin you can add new faculty, student and admins!
 
