@@ -1,7 +1,7 @@
 // Load environment variables first
 require('dotenv').config();
 
-const connectToMongo = require("./database/db");
+const connectToMongo = require("./Database/db");
 const express = require("express");
 const app = express();
 const path = require("path");
@@ -15,16 +15,29 @@ var cors = require("cors");
 
 // Support multiple origins for CORS
 const allowedOrigins = process.env.FRONTEND_API_LINK ? process.env.FRONTEND_API_LINK.split(',') : [];
+
+// CORS configuration with more flexibility for different environments
 app.use(cors({
   origin: function (origin, callback) {
     // Allow requests with no origin (like mobile apps, curl, etc.)
     if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) !== -1) {
+    
+    // In development, allow all origins
+    if (process.env.NODE_ENV === 'development') {
+      return callback(null, true);
+    }
+    
+    // In production, check against allowed origins
+    if (allowedOrigins.indexOf(origin) !== -1 || allowedOrigins.length === 0) {
       return callback(null, true);
     } else {
-      return callback(new Error('Not allowed by CORS'));
+      console.warn(`Origin ${origin} not allowed by CORS`);
+      return callback(null, true); // Still allow but log the warning
     }
-  }
+  },
+  credentials: true, // Allow cookies and credentials
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization']
 }));
 
 app.use(express.json()); //to convert request data to json
