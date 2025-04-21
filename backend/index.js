@@ -13,8 +13,18 @@ connectToMongo();
 const port = process.env.PORT || 5000;
 var cors = require("cors");
 
+// Support multiple origins for CORS
+const allowedOrigins = process.env.FRONTEND_API_LINK ? process.env.FRONTEND_API_LINK.split(',') : [];
 app.use(cors({
-  origin: process.env.FRONTEND_API_LINK
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps, curl, etc.)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      return callback(null, true);
+    } else {
+      return callback(new Error('Not allowed by CORS'));
+    }
+  }
 }));
 
 app.use(express.json()); //to convert request data to json
