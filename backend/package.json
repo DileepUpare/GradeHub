@@ -1,14 +1,14 @@
 {
   "name": "cms-backend",
   "version": "1.0.0",
-  "description": "MERN Stack College Management System",
+  "description": "GradeHub - A Student Management System",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
     "seed": "node admin-seeder.js"
   },
-  "author": "Krish Jotaniya",
+  "author": "Shreehari Kathote",
   "license": "ISC",
   "dependencies": {
     "@google/generative-ai": "^0.24.0",
